@@ -1,0 +1,400 @@
+import { useState } from 'react';
+
+export default function KandangKuPrototype() { const [menu, setMenu] = useState('dashboard'); const [selectedKandang, setSelectedKandang] = useState(null);
+
+const kandang = [ { nama: 'Kandang A', status: 'Normal', warna: 'bg-green-500', umur: 35, populasi: 187 }, { nama: 'Kandang B', status: 'Waspada', warna: 'bg-yellow-500', umur: 35, populasi: 182 }, { nama: 'Kandang C', status: 'Normal', warna: 'bg-green-500', umur: 28, populasi: 190 }, { nama: 'Kandang D', status: 'Bahaya', warna: 'bg-red-500', umur: 30, populasi: 170 }, ];
+
+const renderMenu = () => { if (menu === 'operasional') { const inputHarian = ( <div className="bg-gray-50 rounded-2xl p-4 space-y-3 border mt-3"> <h4 className="font-bold text-lg">✍️ Input Harian</h4>
+
+<div>
+        <label className="text-sm text-gray-600">Mortalitas</label>
+        <input
+          type="number"
+          placeholder="0"
+          className="w-full mt-1 border rounded-xl p-3"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm text-gray-600">Pakan (kg)</label>
+        <input
+          type="number"
+          placeholder="12"
+          className="w-full mt-1 border rounded-xl p-3"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm text-gray-600">Sampling Bobot (gram)</label>
+        <input
+          type="number"
+          placeholder="390"
+          className="w-full mt-1 border rounded-xl p-3"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm text-gray-600">Kondisi Ayam</label>
+        <select className="w-full mt-1 border rounded-xl p-3">
+          <option>Normal</option>
+          <option>Kurang Aktif</option>
+          <option>Waspada</option>
+          <option>Sakit</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="text-sm text-gray-600">Catatan</label>
+        <textarea
+          placeholder="Tulis kondisi kandang hari ini..."
+          className="w-full mt-1 border rounded-xl p-3 h-24"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-green-100 rounded-2xl p-3 text-sm">
+          🎯 Target Bobot: 420g
+        </div>
+
+        <div className="bg-yellow-100 rounded-2xl p-3 text-sm">
+          🌾 Standar Pakan: 11kg
+        </div>
+      </div>
+
+      <button className="w-full bg-green-600 text-white py-3 rounded-2xl font-semibold text-lg">
+        💾 Simpan Data Harian
+      </button>
+    </div>
+  );
+  return (
+    <div className="bg-white rounded-3xl shadow p-5 space-y-4">
+      <h2 className="text-2xl font-bold">🐔 Operasional Kandang</h2>
+
+      {kandang.map((item, index) => (
+        <div
+          onClick={() => setSelectedKandang(item.nama)}
+          key={index}
+          className="border rounded-2xl p-4 space-y-2 cursor-pointer hover:border-green-500 transition"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-bold text-lg">{item.nama}</h3>
+              <p className="text-sm text-gray-500">
+                Batch 2026-0{index + 1}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${item.warna}`}></div>
+              <span className="text-sm">{item.status}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="bg-gray-100 rounded-2xl p-3">
+              Umur: {item.umur} hari
+            </div>
+
+            <div className="bg-gray-100 rounded-2xl p-3">
+              Populasi: {item.populasi}
+            </div>
+
+            <div className="bg-gray-100 rounded-2xl p-3">
+              Pakan: 12kg
+            </div>
+
+            <div className="bg-gray-100 rounded-2xl p-3">
+              Mortalitas: 2
+            </div>
+          </div>
+
+          {inputHarian}
+
+          {selectedKandang === item.nama && (
+            <div className="bg-white border rounded-2xl p-4 space-y-4 mt-4">
+              <h4 className="font-bold text-lg">📊 Detail {item.nama}</h4>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-100 rounded-2xl p-3">
+                  🎯 Target Bobot
+                  <div className="font-bold mt-1">420g</div>
+                </div>
+
+                <div className="bg-gray-100 rounded-2xl p-3">
+                  ⚖️ Real Bobot
+                  <div className="font-bold mt-1">390g</div>
+                </div>
+
+                <div className="bg-gray-100 rounded-2xl p-3">
+                  🌾 Pakan Standar
+                  <div className="font-bold mt-1">11kg</div>
+                </div>
+
+                <div className="bg-gray-100 rounded-2xl p-3">
+                  🌾 Pakan Real
+                  <div className="font-bold mt-1">12kg</div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-100 rounded-2xl p-4 text-sm">
+                ⚠️ Bobot masih di bawah target standar umur.
+              </div>
+
+              <div className="flex gap-3">
+                <button className="flex-1 bg-white border rounded-2xl py-3 font-semibold">
+                  📈 Grafik
+                </button>
+
+                <button className="flex-1 bg-white border rounded-2xl py-3 font-semibold">
+                  💰 Keuangan
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+if (menu === 'keuangan') {
+  return (
+    <div className="bg-white rounded-3xl shadow p-5 space-y-4">
+      <h2 className="text-2xl font-bold">💰 Keuangan Farm</h2>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-green-100 rounded-2xl p-4">
+          <p className="text-sm">Pemasukan</p>
+          <h3 className="text-xl font-bold">Rp12,5jt</h3>
+        </div>
+
+        <div className="bg-red-100 rounded-2xl p-4">
+          <p className="text-sm">Pengeluaran</p>
+          <h3 className="text-xl font-bold">Rp8,3jt</h3>
+        </div>
+      </div>
+
+      <div className="bg-yellow-100 rounded-2xl p-4">
+        <p className="text-sm">Estimasi Laba</p>
+        <h3 className="text-2xl font-bold">Rp4,2jt</h3>
+      </div>
+
+      <div className="space-y-3">
+        <div className="bg-white border rounded-2xl p-4">
+          <h3 className="font-bold mb-3">📈 Tren Performa Mingguan</h3>
+
+          <div className="flex items-end gap-2 h-40">
+            {grafikDummy.map((item, index) => (
+              <div onClick={() => setSelectedKandang(item.nama)}
+          key={index} className="flex-1 flex flex-col items-center gap-2">
+                <div
+                  className="w-full bg-green-500 rounded-t-xl"
+                  style={{ height: `${item}%` }}
+                ></div>
+                <span className="text-xs text-gray-500">H{index + 1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button className="w-full bg-white border rounded-2xl py-3 font-semibold">
+          ➕ Input Pengeluaran
+        </button>
+
+        <button className="w-full bg-white border rounded-2xl py-3 font-semibold">
+          💵 Input Penjualan
+        </button>
+      </div>
+    </div>
+  );
+}
+
+if (menu === 'analitik') {
+  const grafikDummy = [65, 72, 78, 74, 81, 88, 92];
+  return (
+    <div className="bg-white rounded-3xl shadow p-5 space-y-4">
+      <h2 className="text-2xl font-bold">📊 Analitik Farm</h2>
+
+      <div className="space-y-3">
+        <div className="bg-gray-100 rounded-2xl p-4">
+          🏆 Kandang Terbaik: Kandang C
+        </div>
+
+        <div className="bg-yellow-100 rounded-2xl p-4">
+          ⚠️ Risiko Tertinggi: Kandang B
+        </div>
+
+        <div className="bg-green-100 rounded-2xl p-4">
+          📈 Survival Rate: 95%
+        </div>
+
+        <div className="bg-blue-100 rounded-2xl p-4">
+          🌾 Efisiensi Pakan: Normal
+        </div>
+      </div>
+    </div>
+  );
+}
+
+if (menu === 'ai') {
+  return (
+    <div className="bg-white rounded-3xl shadow p-5 space-y-4">
+      <h2 className="text-2xl font-bold">🤖 Asisten AI KandangKu</h2>
+
+      <div className="bg-green-100 rounded-2xl p-4">
+        <p className="font-semibold">💡 Analisa Hari Ini</p>
+        <p className="text-sm mt-2">
+          Kandang B mengalami penurunan performa sejak umur 28 hari.
+          Konsumsi pakan meningkat namun bobot masih di bawah target.
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        <button className="w-full bg-gray-100 rounded-2xl p-4 text-left">
+          Kenapa mortalitas naik?
+        </button>
+
+        <button className="w-full bg-gray-100 rounded-2xl p-4 text-left">
+          Batch mana paling efisien?
+        </button>
+
+        <button className="w-full bg-gray-100 rounded-2xl p-4 text-left">
+          Apakah pakan saya terlalu boros?
+        </button>
+      </div>
+
+      <div>
+        <textarea
+          placeholder="Tanya sesuatu ke AI..."
+          className="w-full border rounded-2xl p-4 h-28"
+        />
+      </div>
+
+      <button className="w-full bg-green-600 text-white py-3 rounded-2xl font-semibold text-lg">
+        Kirim Pertanyaan
+      </button>
+    </div>
+  );
+}
+
+return null;
+
+};
+
+return ( <div className="min-h-screen bg-gray-100 p-4 space-y-4"> <div className="bg-white rounded-3xl shadow p-5"> <div className="flex items-center justify-between"> <div> <h1 className="text-3xl font-bold">🐔 KandangKu</h1> <p className="text-gray-500 mt-1">Farm Status: Perlu Perhatian</p> </div> <div className="w-5 h-5 rounded-full bg-yellow-500"></div> </div> </div>
+
+<div className="bg-white rounded-3xl shadow p-5">
+    <h2 className="text-xl font-bold mb-3">⚠️ Perlu Perhatian</h2>
+
+    <div className="space-y-2 text-sm">
+      <div className="bg-yellow-100 rounded-2xl p-3">
+        Mortalitas Kandang B meningkat
+      </div>
+
+      <div className="bg-red-100 rounded-2xl p-3">
+        Kandang D di bawah target bobot
+      </div>
+    </div>
+  </div>
+
+  <div className="bg-white rounded-3xl shadow p-5">
+    <h2 className="text-xl font-bold mb-3">💡 Rekomendasi AI</h2>
+
+    <div className="space-y-2 text-sm">
+      <div className="bg-green-100 rounded-2xl p-3">
+        Pantau konsumsi pakan Kandang B 2 hari ke depan
+      </div>
+
+      <div className="bg-green-100 rounded-2xl p-3">
+        Sampling bobot ulang Kandang D
+      </div>
+    </div>
+  </div>
+
+  <div className="grid grid-cols-2 gap-3">
+    <div className="bg-white rounded-3xl shadow p-4">
+      <p className="text-gray-500 text-sm">Ayam Hidup</p>
+      <h3 className="text-2xl font-bold mt-1">1.820</h3>
+    </div>
+
+    <div className="bg-white rounded-3xl shadow p-4">
+      <p className="text-gray-500 text-sm">Mortalitas</p>
+      <h3 className="text-2xl font-bold mt-1">7</h3>
+    </div>
+
+    <div className="bg-white rounded-3xl shadow p-4">
+      <p className="text-gray-500 text-sm">Total Pakan</p>
+      <h3 className="text-2xl font-bold mt-1">124kg</h3>
+    </div>
+
+    <div className="bg-white rounded-3xl shadow p-4">
+      <p className="text-gray-500 text-sm">Estimasi Laba</p>
+      <h3 className="text-2xl font-bold mt-1">Rp2,3jt</h3>
+    </div>
+  </div>
+
+  <div className="bg-white rounded-3xl shadow p-5">
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-xl font-bold">🐥 Kandang Pembesaran</h2>
+      <button className="bg-green-600 text-white px-4 py-2 rounded-2xl text-sm">
+        + Tambah
+      </button>
+    </div>
+
+    <div className="space-y-3">
+      {kandang.map((item, index) => (
+        <div
+          onClick={() => setSelectedKandang(item.nama)}
+          key={index}
+          className="border rounded-2xl p-4 flex items-center justify-between"
+        >
+          <div>
+            <h3 className="font-bold text-lg">{item.nama}</h3>
+            <p className="text-sm text-gray-500">
+              Umur {item.umur} hari • {item.populasi} ekor
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className={`w-3 h-3 rounded-full ${item.warna}`}></div>
+            <span className="text-sm">{item.status}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {renderMenu()}
+
+  <div className="grid grid-cols-2 gap-3 pb-10">
+    <button
+      onClick={() => setMenu('operasional')}
+      className="bg-green-600 text-white rounded-3xl p-4 text-lg font-semibold"
+    >
+      🐔 Operasional
+    </button>
+
+    <button
+      onClick={() => setMenu('keuangan')}
+      className="bg-white rounded-3xl shadow p-4 text-lg font-semibold"
+    >
+      💰 Keuangan
+    </button>
+
+    <button
+      onClick={() => setMenu('analitik')}
+      className="bg-white rounded-3xl shadow p-4 text-lg font-semibold"
+    >
+      📊 Analitik
+    </button>
+
+    <button
+      onClick={() => setMenu('ai')}
+      className="bg-white rounded-3xl shadow p-4 text-lg font-semibold"
+    >
+      🤖 Tanya AI
+    </button>
+  </div>
+</div>
+
+); }
